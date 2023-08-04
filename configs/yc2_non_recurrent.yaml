@@ -1,0 +1,148 @@
+description: "config file for YouCook2 with non-recurrent model and TSN feats"
+config_type: "mart"
+dist_url: "env://"
+validate: false  # whether only do validatoin
+# ---------- Print ----------
+print:
+  config: false  # print hyper-parammeters
+  model: false  # print model
+  graph: false  # print forward pass, NotImplemented yet!
+# ---------- Exp ----------
+exp:
+  start_run: 0  # start at which run number
+  num_runs: 15  # how many runs to do. As the training is very fast but there exists fluctuation in the performance. Run multiple times and pick the best one. 
+  run_name: "run"  # run name to save the model, no need to change
+  exp_group: "youcook2"  # saved group name
+  exp_name: "Test"  # save name for this experiment 
+  random_seed: null
+  use_cuda: true
+  debug: false
+  cudnn_enabled: true
+  cudnn_benchmark: true
+  cudnn_deterministic: false
+  use_multi_gpu: true
+  cuda_non_blocking: true
+  fp16_train: false  # this will create NaN in the backward pass!
+  fp16_val: false
+  # delete saved experiments
+  reset: false
+  # checkpoing loading
+  load_epoch: null  # load epoch number
+  load_best: true  # load best epoch
+  load_model: null  # path to load pretrained model
+  ignore_untrained: false  # do validation even though no available checkpoint
+  # path setting
+  config_dir: "configs"  # folder with config files
+  log_dir: "experiments"  # folder with saved experiment results
+# ---------- Training ----------
+train:
+  batch_size: 64
+  num_epochs: 20
+  loss_func: "crossentropy"
+  clip_gradient: 1
+  cls_weight: 0.02
+  act_weight: 1.0
+# ---------- Validation ----------
+val:
+  val_freq: 1  # frequency of do evaluation
+  val_start: 0  # do evaluation at which epoch
+  batch_size: 128
+  det_best_field: "cider"
+  det_best_compare_mode: "max"
+  det_best_threshold_mode: "rel"
+  det_best_threshold_value: 1e-4
+  det_best_terminate_after: 4  # early stop with no improvements in 4 consecutive epochs
+# ---------- beam search ---------- 
+beam:
+  use_beam: false
+  size: 2
+  n_best: 1
+# ----------  generated sentence bounds ---------- 
+gene_bounds:
+  min_sen_len: 5
+  max_sen_len: 30
+  block_ngram_repeat: 0
+  length_penalty_name: null
+  length_penalty_alpha: 0.
+# ---------- Dataset / Dataloader ----------
+data:
+  name: "youcook2"
+  data_type: "auto"
+  subset: "default"
+  max_datapoints: -1
+  pin_memory: false
+  num_workers: 32
+  # the split should be changed when training activitynet
+  train_split: "train"
+  val_split: "val"
+  train_shuffle: true
+  val_shuffle: false
+  drop_last: false
+  recurrent: false
+  max_n_sen: 12  # 6 activitynet, 12 youcook2
+  max_n_sen_add_val: 10  # allowing longer senquence for val than training
+  max_t_len: 22  # number of input liguistic words
+  max_v_len: 100  # number of input visual features, 3 for coot features, 100 for rgb+flow video features
+  max_d_len: 492  # number of input detection features, (100-2)*5+1 
+  max_a_len: 100  # number of input action features
+  type_vocab_size: 3
+  word_vec_size: 300
+  # Video feature size: 2048 for rgb features, 2048 for detect features, 1024 for flow features
+  video_feature_size: 2048
+  detect_feature_size: 2048
+  action_feature_size: 1024
+  cache_dir: "cache_caption"  # cached vocabulary dir
+  coot_feat_dir: "data/coot_video_feature"  # dir containing the video features provided by COOT
+  video_feature_dir: "data/mart_video_feature"  # dir containing the video features used in MART
+  annotations_dir: "annotations"
+# ----------  COOT embeddings ---------- Not intergrated in current version
+coot:
+  model_name: null  # null indicates for training on video features 
+  dim_clip: 384
+  dim_vid: 768
+  mode: "vidclip"
+# ---------- Model ----------
+model:
+  branch:
+    num: 3
+    detect_input: true
+    action_input: true
+  label_smoothing: 0.1
+  attention_probs_dropout_prob: 0.1
+  hidden_dropout_prob: 0.1
+  hidden_size: 768
+  intermediate_size: 768
+  layer_norm_eps: 1e-12
+  memory_dropout_prob: 0.1
+  num_attention_heads: 12
+  num_hidden_layers: 2
+  num_class_detect: 189
+  num_class_act: 50
+  share_wd_cls_weight: false
+  recurrent: false  # whether to use recurrent model
+  use_glove: true
+  freeze_glove: false
+  add_postion_embeddings: true
+  add_postion_embeddings_det: false
+  add_postion_embeddings_act: true
+# ---------- Optimization ----------
+optim:
+  ema_decay: 0.9999
+  initializer_range: 0.02
+  lr: 0.0001
+  lr_warmup_proportion: 0.1
+  eps: 1e-6
+# ---------- Logging ----------
+logging:
+  level: 20 # logging.INFO
+  step_train: 10
+  step_val: 10
+  step_gpu: -1
+  step_gpu_once: 10
+# ---------- Saving ----------
+saving:
+  keep_freq: 1
+  save_last: true
+  save_best: true
+  save_opt_state: true
+  save_mode: "all"

@@ -1,0 +1,13 @@
+nltk
+tqdm 
+gputil # gpu profiler
+psutil # ram profiler
+pydantic==1.9.0 # typing extension
+pylint # linter
+omegaconf
+hydra-core 
+tensorboard
+pycocoevalcap # text evaluation # alternative: # pip install git+https://github.com/salaniz/pycocoevalcap
+--extra-index-url https://download.pytorch.org/whl/cu113
+torch==1.12.1+cu113
+torchvision==0.13.1+cu113
