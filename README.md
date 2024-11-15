@@ -1,10 +1,6 @@
 # COST - Collaborative Three-Stream Transformers for Video Captioning
 
-**2023-08-04** (v0.1) This repository is the official implementation of COST (Collaborative Three-Stream Transformers for Video Captioning), which was recently accepted by CVIU.
-
-> **Collaborative Three-Stream Transformers for Video Captioning** <br>
-> Hao Wang, Libo Zhang, Heng Fan, Tiejian Luo <br>
-> *CVIU*
+**2023-08-04** (v0.1) This repository is the official implementation of COST (Collaborative Three-Stream Transformers for Video Captioning), which was recently accepted by **Computer Vision and Image Understanding**.
 
 <div align="center">
     <img src="docs/architecture.png" alt="Editor" width="600">
@@ -65,7 +61,22 @@ I have been a little busy recently, and the following works will be pushed forwa
 - [x] Release initial version which supports multi-gpu training and inference on YouCookII
 - [ ] Release pre-trained models and support training with COOT features as input
 - [ ] Release detection features and pre-trained models, and support training for ActivityNet-Captions
-- [ ] Provide instruction on Internet videos evaluation
+
+I graduated this summer, and the data on the laboratory machine has been cleared. If you need it, please feel free to ask, and I will do my best to provide details for reproduction.
 
 ## Acknowledgment
 We would like to thank the authors of [MART](https://github.com/jayleicn/recurrent-transformer) and [COOT](https://github.com/gingsi/coot-videotext) for sharing their codes.
+
+## Citation
+If you find this project is useful for your research, please cite our work.
+```text
+@article{wang2023collaborative,
+  title={Collaborative three-stream transformers for video captioning},
+  author={Wang, Hao and Zhang, Libo and Fan, Heng and Luo, Tiejian},
+  journal={Computer Vision and Image Understanding},
+  volume={235},
+  pages={103799},
+  year={2023},
+  publisher={Elsevier}
+}
+```
